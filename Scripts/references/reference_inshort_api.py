@@ -59,63 +59,79 @@ def getNews(category):
     return news_data
 
 
-category = "national"
-
-## * Following are some of the various categories
-# all
-# national //Indian News only
-# business
-# sports
-# world
-# politics
-# technology
-# startup
-# entertainment
-# miscellaneous
-# hatke
-# science
-# automobile
-
-news_data = getNews(category)
+def create_download_dir(article_folder_path):
+    if not os.path.exists(article_folder_path):
+        ## * If the article does'nt exists, create one
+        os.makedirs(article_folder_path)
+        print(f"{article_folder_path} created successfully")
+    else:
+        print("Folder with this name already exists")
 
 
-## * Article counter to create article{article_counter}.txt
-article_counter = 1
-article_folder_name = "Assets\inshorts_downloads\downloaded_article"
+def write_json(json_file_path, source_of_json):
+    with open(json_file_path, "w") as file:
+        json.dump(source_of_json, file, indent=4)
 
-## * Logic to check if the dir "downloaded_articles" already exists or not
-if not os.path.exists(article_folder_name):
-    ## * If the article does'nt exists, create one
-    os.makedirs(article_folder_name)
-    print(f"{article_folder_name} created successfully")
-else:
-    print(f"{article_folder_name} Folder with this name already exists")
 
-## * Iteration over the JSON file
-## ! Refer the downloaded JSON file 'output.json' for better picture
-for each_news_article in news_data:
-    try:
-        author = each_news_article.get("news_obj", {}).get("author_name", "No author")
-        content = each_news_article.get("news_obj", {}).get("content", "No content")
-        source = each_news_article.get("news_obj", {}).get("source_url", "No source")
+def main():
+    category = "national"
 
-        article_contents = [author, content, source]
+    ## * Following are some of the various categories
+    # all
+    # national //Indian News only
+    # business
+    # sports
+    # world
+    # politics
+    # technology
+    # startup
+    # entertainment
+    # miscellaneous
+    # hatke
+    # science
+    # automobile
 
-        ## * Logic to dynamically create the articles in 'downloaded_articles' dir
-        article_name = f"article{article_counter}.txt"
-        article_path = os.path.join(article_folder_name, article_name)
+    news_data = getNews(category)
 
-        with open(article_path, "a") as file:
-            for content in article_contents:
-                file.write(content + "\n")
+    ## * Article counter to create article{article_counter}.txt
+    article_counter = 1
+    article_folder_path = "Assets\inshorts_downloads\downloaded_article"
 
-        article_counter += 1
-    except Exception as e:
-        print(f"Error processing an article: {e}")
+    ## * Logic to check if the dir "downloaded_articles" already exists or not
+    create_download_dir(article_folder_path)
 
-## * Write the JSON file into 'output.json', refer it for better understanding of the 'GET' method results
-with open("Assets\inshorts_downloads\output.json", "w") as file:
-    json.dump(news_data, file, indent=4)
+    ## * Iteration over the JSON file
+    ## ! Refer the downloaded JSON file 'output.json' for better picture
+    for each_news_article in news_data:
+        try:
+            author = each_news_article.get("news_obj", {}).get(
+                "author_name", "No author"
+            )
+            content = each_news_article.get("news_obj", {}).get("content", "No content")
+            source = each_news_article.get("news_obj", {}).get(
+                "source_url", "No source"
+            )
+
+            article_contents = [author, content, source]
+
+            ## * Logic to dynamically create the articles in 'downloaded_articles' dir
+            article_name = f"article{article_counter}.txt"
+            article_path = os.path.join(article_folder_path, article_name)
+
+            with open(article_path, "a") as file:
+                for content in article_contents:
+                    file.write(content + "\n")
+
+            article_counter += 1
+        except Exception as e:
+            print(f"Error processing an article: {e}")
+
+    ## * Write the JSON file into 'output.json', refer it for better understanding of the 'GET' method results
+    write_json("Assets\inshorts_downloads\output.json", news_data)
+
+
+if __name__ == "__main__":
+    main()
 
 
 ## ! For some reason the MIN and MAX number of article returned by the API is always 10
