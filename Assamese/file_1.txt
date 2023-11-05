@@ -1,4 +1,4 @@
-# News article Urls from the first website in 'file_1.txt'
+# News article Urls from the News18 Assam
 /photogallery/assam/assamese-legendery-singer-lyricist-musician-dr-bhupen-hazarika-death-anniversary-know-about-his-life-sb-338065.html
 /news/assam/chandmari-kinnar-death-police-received-postmortem-report-of-amdadul-tv-balen-subham-g-338047.html
 /news/jorhat/minister-ajanta-neog-lays-foundation-stone-for-jorhats-third-flyover-tv-gautom-subham-g-338060.html
