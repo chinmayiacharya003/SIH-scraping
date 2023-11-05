@@ -19,7 +19,7 @@ BLUE = "\033[94m"
 RESET = "\033[0m"
 
 ## ! FILE / DIR NAMES
-DIR = "ANI"
+DIR = os.path.join('Scripts', 'references', 'ANI')
 TODAY_DIR = str(date.today())
 
 

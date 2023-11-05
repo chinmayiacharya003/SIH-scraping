@@ -13,7 +13,7 @@ CONTAINER = {
 
 
 ## ! FILE / DIR NAMES
-DIR = "ANI"
+DIR = os.path.join('Scripts', 'references', 'ANI')
 REFERENCE_HTML = "reference.html"
 HREF_TXT = "hrefs.txt"
 
