@@ -8,8 +8,10 @@ import os
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
 }
-MAIN_URL = "https://aninews.in/"
-CONTAINER = {"itemprop": "articleBody"}
+MAIN_URL = "https://timesofindia.indiatimes.com/"
+CONTAINER_CLASS = 'class'
+CONTAINER_CLASS_NAME = 'lvJPt'
+CONTAINER = {f"{CONTAINER_CLASS}": f"{CONTAINER_CLASS_NAME}"}
 
 ## ! COLORS
 RED = "\033[91m"  ## ? ERRORS / UNSUCCESSFUL OPERATION
@@ -19,7 +21,8 @@ BLUE = "\033[94m"
 RESET = "\033[0m"
 
 ## ! FILE / DIR NAMES
-DIR = os.path.join('Scripts', 'references', 'ANI')
+DIR_NAME = 'TOI'
+DIR = os.path.join('Scripts', 'references', f"{DIR_NAME}")
 TODAY_DIR = str(date.today())
 
 
@@ -83,8 +86,10 @@ def main():
                     print(RED + "Title not found on the webpage:", url + RESET)
 
                 article_content = soup.find(
-                    "div", {"itemprop": f"{CONTAINER['itemprop']}"}
+                    "div", {f"{CONTAINER_CLASS}": f"{CONTAINER_CLASS_NAME}"}
                 )
+
+                paragraphs = ''
 
                 if article_content:
                     paragraphs = article_content.find_all("p")
