@@ -17,26 +17,26 @@ RESET = "\033[0m"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
 }
-MAIN_URL = "https://timesofindia.indiatimes.com/"
-SET_HEADERS = False ## ? Headers = False when Headers are not to be included
+MAIN_URL = "https://tv9kannada.com/"
+SET_HEADERS = True ## ? Headers = False when Headers are not to be included
 DELAY = 2 ## ? Delay in seconds b/w each request
 
 ## ! MAIN CONTAINER 
 CONTAINER_TYPE = 'class'
-CONTAINER_NAME = 'BUoQz'
+CONTAINER_NAME = 'leftbx'
 CONTAINER = {
     CONTAINER_TYPE: CONTAINER_NAME
 }
 
 ## ! SUB_CONTAINER
 SUB_CONTAINER_TYPE = 'class'
-SUB_CONTAINER_NAME = '_s30J clearfix'
+SUB_CONTAINER_NAME = 'ArticleBodyCont'
 SUB_CONTAINER = {
     SUB_CONTAINER_TYPE: SUB_CONTAINER_NAME
 }
 
 ## ! FILE / DIR NAMES
-DIR_NAME = 'TOI'
+DIR_NAME = 'TV9_KANNADA'
 DIR = os.path.join('Scripts', 'references', f"{DIR_NAME}")
 REFERENCE_HTML = "reference.html"
 HREF_TXT = "hrefs.txt"
@@ -88,14 +88,30 @@ def find_write_href(anchor_list):
             file.write("\n\n")
     print(GREEN + f"Successfully Created {BLUE} hrefs.txt {GREEN} file" + RESET + '\n')
 
+def shorten_title(title):
+    words = title.split()
+    if len(words) <= 10:
+        return title
+    else:
+        return ' '.join(words[:10])
+
 def make_article_file(title, paragraphs):
     cleaned_title = title.replace('"', "")
-    cleaned_title = cleaned_title.replace(" ", "_")
     cleaned_title = cleaned_title.replace(":", "")
     cleaned_title = cleaned_title.replace(",", "")
     cleaned_title = cleaned_title.replace("|", "")
     cleaned_title = cleaned_title.replace("-", "")
     cleaned_title = cleaned_title.replace("!", "")
+    cleaned_title = cleaned_title.replace("?", "")
+    cleaned_title = cleaned_title.replace("'", "")
+    cleaned_title = "_".join(cleaned_title.split()) 
+
+    shortened_title = shorten_title(cleaned_title)
+
+    MAX_FILENAME_LENGTH = 255  ## ? Adjust accordingly 
+    if len(shortened_title) > MAX_FILENAME_LENGTH:
+        shortened_title = shortened_title[:MAX_FILENAME_LENGTH]
+
     PATH_TO_ARTICLE_TXT = os.path.join(PATH_TODAY_DIR, cleaned_title)
 
     with open(f"{PATH_TO_ARTICLE_TXT}.txt", "w", encoding="utf-8") as article:
