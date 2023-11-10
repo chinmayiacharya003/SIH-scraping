@@ -17,26 +17,26 @@ RESET = "\033[0m"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
 }
-MAIN_URL = "https://tv9kannada.com/"
+MAIN_URL = "https://www.jagran.com/"
 SET_HEADERS = True ## ? Headers = False when Headers are not to be included
 DELAY = 2 ## ? Delay in seconds b/w each request
 
 ## ! MAIN CONTAINER 
 CONTAINER_TYPE = 'class'
-CONTAINER_NAME = 'leftbx'
+CONTAINER_NAME = 'stickySidebar'
 CONTAINER = {
     CONTAINER_TYPE: CONTAINER_NAME
 }
 
 ## ! SUB_CONTAINER
 SUB_CONTAINER_TYPE = 'class'
-SUB_CONTAINER_NAME = 'ArticleBodyCont'
+SUB_CONTAINER_NAME = 'articlecontent'
 SUB_CONTAINER = {
     SUB_CONTAINER_TYPE: SUB_CONTAINER_NAME
 }
 
 ## ! FILE / DIR NAMES
-DIR_NAME = 'TV9_KANNADA'
+DIR_NAME = 'JAAGRAN'
 DIR = os.path.join('Scripts', 'references', f"{DIR_NAME}")
 REFERENCE_HTML = "reference.html"
 HREF_TXT = "hrefs.txt"
