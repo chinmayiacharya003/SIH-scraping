@@ -148,6 +148,11 @@ def main():
 
                 if not url.startswith("http://") and not url.startswith("https://"):
                     url = MAIN_URL + url
+                    
+                # Filters invalid urls for "BBC hindi" website    
+                if "/hindi/hindi/" in url:
+                    print(RED + f"Invalid URL format: {url}" + RESET + '\n')
+                    continue    
             
                 print(url)
 
