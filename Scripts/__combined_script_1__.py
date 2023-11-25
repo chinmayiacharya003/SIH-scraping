@@ -112,7 +112,7 @@ def make_article_file(title, paragraphs):
     if len(shortened_title) > MAX_FILENAME_LENGTH:
         shortened_title = shortened_title[:MAX_FILENAME_LENGTH]
 
-    PATH_TO_ARTICLE_TXT = os.path.join(PATH_TODAY_DIR, cleaned_title)
+    PATH_TO_ARTICLE_TXT = os.path.join(PATH_TODAY_DIR, shortened_title)
 
     with open(f"{PATH_TO_ARTICLE_TXT}.txt", "w", encoding="utf-8") as article:
         article.write(paragraphs)
