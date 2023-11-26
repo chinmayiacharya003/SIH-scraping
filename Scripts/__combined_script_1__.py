@@ -17,26 +17,26 @@ RESET = "\033[0m"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
 }
-MAIN_URL = "https://www.jagran.com/"
+MAIN_URL = "https://www.hindustantimes.com/"
 SET_HEADERS = True ## ? Headers = False when Headers are not to be included
 DELAY = 2 ## ? Delay in seconds b/w each request
 
 ## ! MAIN CONTAINER 
 CONTAINER_TYPE = 'class'
-CONTAINER_NAME = 'stickySidebar'
+CONTAINER_NAME = 'mainContainer'
 CONTAINER = {
     CONTAINER_TYPE: CONTAINER_NAME
 }
 
 ## ! SUB_CONTAINER
 SUB_CONTAINER_TYPE = 'class'
-SUB_CONTAINER_NAME = 'articlecontent'
+SUB_CONTAINER_NAME = 'detail'
 SUB_CONTAINER = {
     SUB_CONTAINER_TYPE: SUB_CONTAINER_NAME
 }
 
 ## ! FILE / DIR NAMES
-DIR_NAME = 'JAAGRAN'
+DIR_NAME = 'HT'
 DIR = os.path.join('Scripts', 'references', f"{DIR_NAME}")
 REFERENCE_HTML = "reference.html"
 HREF_TXT = "hrefs.txt"
@@ -84,8 +84,9 @@ def find_write_href(anchor_list):
     with open(PATH_FOR_HREF_TXT, "w") as file:
         hrefElements = [a.get("href") for a in anchor_list]
         for href in hrefElements:
-            file.write(href)
-            file.write("\n\n")
+            if href is not None:
+                file.write(href)
+                file.write("\n\n")
     print(GREEN + f"Successfully Created {BLUE} hrefs.txt {GREEN} file" + RESET + '\n')
 
 def shorten_title(title):
@@ -129,9 +130,9 @@ def main():
 
     ## ! 1) FETCH HREF PART 
     if "class" in CONTAINER:
-        main_article_container = SOUP.find("div", {CONTAINER_TYPE: f"{CONTAINER['class']}"})
+        main_article_container = SOUP.find("section", {CONTAINER_TYPE: f"{CONTAINER['class']}"})
     else:
-        main_article_container = SOUP.find("div", {CONTAINER_TYPE: f"{CONTAINER['id']}"})
+        main_article_container = SOUP.find("section", {CONTAINER_TYPE: f"{CONTAINER['id']}"})
 
     if main_article_container:
         create_reference_html(main_article_container)
@@ -180,5 +181,5 @@ def main():
         print(RED + "Error in Creating reference.html file,\nCheck the Container" + RESET + '\n')
 
 if __name__ == "__main__":
-    os.system('cls') ## ? Clears the terminal screen
+    os.system('clear') ## ? Clears the terminal screen
     main()
