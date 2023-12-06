@@ -1,4 +1,4 @@
-# from data import my_data 
+from pg_adaptor.data_harvesters import insert_website_data
 from bs4 import BeautifulSoup
 import os 
 import time
@@ -68,19 +68,20 @@ def write_hrefs_to_file(dir_name, href_list):
     print(f"{GREEN}Successfully created hrefs.txt file for {dir_name}{RESET}")
     print(f"{BLUE}-----------------------------------------------------\n{RESET}")
 
-def make_article_file(title, paragraphs, name):
-    cleaned_title = clean_title(title)
-    directory_path = os.path.join(name, TODAY_DATE)
-    create_directory(directory_path=directory_path)
-    PATH_TO_ARTICLE_TXT = os.path.join(name, TODAY_DATE, f"{cleaned_title}.txt")
+# def make_article_file(title, paragraphs, name):
+#     cleaned_title = clean_title(title)
+#     directory_path = os.path.join(name, TODAY_DATE)
+#     create_directory(directory_path=directory_path)
+#     PATH_TO_ARTICLE_TXT = os.path.join(name, TODAY_DATE, f"{cleaned_title}.txt")
 
-    with open(PATH_TO_ARTICLE_TXT, "w", encoding="utf-8") as article:
-        article.write(paragraphs)
+#     with open(PATH_TO_ARTICLE_TXT, "w", encoding="utf-8") as article:
+#         article.write(paragraphs)
 
-    print(f"{GREEN}Article '{cleaned_title}' created successfully{RESET}\n")
+#     print(f"{GREEN}Article '{cleaned_title}' created successfully{RESET}\n")
+
 
 ##! ----------- M A I N   S C R A P I N G   L O G I C -----------
-def scrape_content(name, main_url, wrp, ctn, sub_wrp, sub_ctn, set_headers):
+def scrape_content(name, language, main_url, wrp, ctn, sub_wrp, sub_ctn, set_headers):
     soup = make_request(request_url=main_url, set_headers=set_headers)
 
     if soup:
@@ -116,7 +117,9 @@ def scrape_content(name, main_url, wrp, ctn, sub_wrp, sub_ctn, set_headers):
 
                     if article_content:
                         paragraphs = article_content.text
-                        make_article_file(title, paragraphs, name)
+                        push_data = [(url, paragraphs, language)]
+                        insert_website_data(push_data)
+                        print(f"{GREEN}Article '{title[:20]}' pushed successfully{RESET}\n")
                     else:
                         print(f"{RED}Article Content is Empty{RESET}\n")
 
@@ -132,6 +135,7 @@ def main():
 
     for index, row in df.iterrows():
         name = row['name']
+        language = row['language']
         url = row['url']
         wrapper = row['wrapper']
         ctn = row['container']
@@ -139,9 +143,10 @@ def main():
         subCtn = row['subContainer']
         set_headers = str(row['headers']).lower()
 
-        scrape_content(name, url, wrapper, ctn, subWrapper, subCtn, set_headers)
+        scrape_content(name, language, url, wrapper, ctn, subWrapper, subCtn, set_headers)
 
 if __name__ == "__main__":
     os.system('clear')
     main()
+
 
